@@ -60,9 +60,19 @@
       background: #007bff;
       color: white;
     }
+
+    #greeting {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
+
+<div id="greeting"></div> <!-- Display greeting here -->
 
 <div class="converter">
   <h2>Currency Converter</h2>
@@ -95,6 +105,21 @@
 
 <script>
   const API_KEY = 'fca_live_MxqIPPaw49D6iSgbAj766jQLtEfUUvP5pUnBQsDY';
+
+  // Function to ask for name if not present in localStorage
+  function askForName() {
+    let userName = localStorage.getItem("userName");
+
+    if (!userName) {
+      userName = prompt("Please enter your name:");
+      if (userName) {
+        localStorage.setItem("userName", userName);
+      }
+    }
+
+    // Show the greeting
+    document.getElementById("greeting").textContent = `Hi ${userName}`;
+  }
 
   // This function is triggered automatically whenever the input or select fields change
   async function convertCurrency() {
@@ -138,12 +163,15 @@
     localStorage.setItem("preferredTheme", isDark ? "dark" : "light");
   }
 
-  // On Load: Apply Theme
-  (function applySavedTheme() {
+  // On Load: Apply Theme and Ask for Name
+  (function applySavedThemeAndName() {
     const savedTheme = localStorage.getItem("preferredTheme");
     if (savedTheme === "dark") {
       document.body.classList.add("dark-mode");
     }
+
+    // Ask for name if not saved
+    askForName();
   })();
 </script>
 
